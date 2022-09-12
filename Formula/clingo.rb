@@ -1,8 +1,8 @@
 class Clingo < Formula
   desc "ASP system to ground and solve logic programs"
   homepage "https://potassco.org/"
-  url "https://github.com/potassco/clingo/archive/v5.5.2.tar.gz"
-  sha256 "a2a0a590485e26dce18860ac002576232d70accc5bfcb11c0c22e66beb23baa6"
+  url "https://github.com/potassco/clingo/archive/v5.6.0.tar.gz"
+  sha256 "2891ecfcccbe728168ac27d62c3036aae0164b15b219b4954fb18614eda79f53"
   license "MIT"
 
   livecheck do
@@ -11,12 +11,12 @@ class Clingo < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "f29085f4bfa5ef240893fb81f6fbcde373cbb556e4c0074f4afac1421fa4ff15"
-    sha256 cellar: :any,                 arm64_big_sur:  "a07ba834cac742e0f312d043d162faef11b79599fb27c8ac9200296122d79fa7"
-    sha256 cellar: :any,                 monterey:       "a00b67042ab1860d9e869a42e5ddff5a1dc1da8c73355da2e4403e7d0253c956"
-    sha256 cellar: :any,                 big_sur:        "33cc22a9a997111f95660c59650360330c4bcf2c09e9af19194d8b6e927ab209"
-    sha256 cellar: :any,                 catalina:       "cc7cd9a98981a3e5e9ada8377badbeb5d0c728cd0362b270a0d40546fccd35fc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c5bb283ac41fa30af663fbc4bf1568909026c842b5edd5a0504623ec4c618ce0"
+    sha256 cellar: :any,                 arm64_monterey: "516d1802c4d72a58f5a29333619d9368fe86be8271585c8a2538e5f4f7e1315c"
+    sha256 cellar: :any,                 arm64_big_sur:  "24a2afa23f80f6d606a79df6884979834596fa20d80b4c1d2c7d371e7b401a99"
+    sha256 cellar: :any,                 monterey:       "5a95cbc5c5feff84a3f273632901aa64bd7e9a0308d7d362be2841b85fc212b4"
+    sha256 cellar: :any,                 big_sur:        "0601e130693a5907c3202794c0ff054f2764b891e829be9c0e45b9748bd41e25"
+    sha256 cellar: :any,                 catalina:       "8e5a8a8cbcafbf382075fb9a1cad3c378e04f37ddcc93fb63a545b25936e5f05"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ff669faa185e5071638026628e823ee24b647e72c21cdee41c00305e16bea8cf"
   end
 
   head do
@@ -39,15 +39,17 @@ class Clingo < Formula
   link_overwrite "bin/reify"
 
   def install
-    system "cmake", ".", "-DCLINGO_BUILD_WITH_PYTHON=ON",
-                         "-DCLINGO_BUILD_PY_SHARED=ON",
-                         "-DPYCLINGO_USE_INSTALL_PREFIX=ON",
-                         "-DPYCLINGO_USER_INSTALL=OFF",
-                         "-DCLINGO_BUILD_WITH_LUA=ON",
-                         "-DPython_EXECUTABLE=#{which("python3")}",
-                         "-DPYCLINGO_DYNAMIC_LOOKUP=OFF",
-                         *std_cmake_args
-    system "make", "install"
+    system "cmake", "-S", ".", "-B", "build",
+                    "-DCLINGO_BUILD_WITH_PYTHON=ON",
+                    "-DCLINGO_BUILD_PY_SHARED=ON",
+                    "-DPYCLINGO_USE_INSTALL_PREFIX=ON",
+                    "-DPYCLINGO_USER_INSTALL=OFF",
+                    "-DCLINGO_BUILD_WITH_LUA=ON",
+                    "-DPython_EXECUTABLE=#{which("python3.10")}",
+                    "-DPYCLINGO_DYNAMIC_LOOKUP=OFF",
+                    *std_cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do
