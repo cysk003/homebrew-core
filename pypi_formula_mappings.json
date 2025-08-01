@@ -237,7 +237,7 @@
   },
   "copyparty": {
     "package_name": "copyparty[thumbnails2,audiotags,ftpd,ftps,tftpd,pwhash,zeromq]",
-    "exclude_packages": ["cffi", "pycparser"]
+    "exclude_packages": ["cffi", "cryptography", "pycparser"]
   },
   "core-lightning": {
     "package_name": "",
@@ -581,7 +581,7 @@
     "exclude_packages": ["certifi"]
   },
   "molecule": {
-    "extra_packages": ["docker-py", "molecule-vagrant", "python-vagrant"],
+    "extra_packages": ["molecule-plugins[azure,docker,ec2,gce,podman,vagrant,openstack]"],
     "exclude_packages": ["certifi", "cryptography"]
   },
   "mongo-orchestration": {
