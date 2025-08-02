@@ -1,18 +1,20 @@
-class Gradle < Formula
+class GradleAT8 < Formula
   desc "Open-source build automation tool based on the Groovy and Kotlin DSL"
   homepage "https://www.gradle.org/"
-  url "https://services.gradle.org/distributions/gradle-9.0.0-all.zip"
-  sha256 "f759b8dd5204e2e3fa4ca3e73f452f087153cf81bac9561eeb854229cc2c5365"
+  url "https://services.gradle.org/distributions/gradle-8.14.3-all.zip"
+  sha256 "ed1a8d686605fd7c23bdf62c7fc7add1c5b23b2bbc3721e661934ef4a4911d7c"
   license "Apache-2.0"
 
   livecheck do
-    url "https://gradle.org/install/"
-    regex(/href=.*?gradle[._-]v?(\d+(?:\.\d+)+)-all\.(?:zip|t)/i)
+    url "https://gradle.org/releases/"
+    regex(/href=.*?gradle[._-]v?(8(?:\.\d+)+)-all\.(?:zip|t)/i)
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "79ab48afe7edb85bbd879afc21051fcbf5a5d4c21dc9e33f0609d981ac0e8520"
+    sha256 cellar: :any_skip_relocation, all: "f1eae3a15f69a395246d590a2affefb1c30b1bca61f00996490ca76ce8965eb1"
   end
+
+  keg_only :versioned_formula
 
   # https://github.com/gradle/gradle/blob/master/platforms/documentation/docs/src/docs/userguide/releases/compatibility.adoc
   depends_on "openjdk"
