@@ -168,6 +168,7 @@ jobs:
           echo upload="${DISPATCH_BUILD_BOTTLE_UPLOAD}"
 
       - name: Pre-test steps
+        timeout-minutes: 10
         uses: Homebrew/actions/pre-build@main
         with:
           bottles-directory: ${{ env.BOTTLES_DIR }}

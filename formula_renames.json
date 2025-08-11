@@ -112,6 +112,7 @@
   "minizip2": "minizip-ng",
   "mist": "mist-cli",
   "mkl-dnn": "onednn",
+  "moar": "moor",
   "mobile-shell": "mosh",
   "mongo-c": "mongo-c-driver",
   "mpich2": "mpich",

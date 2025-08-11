@@ -106,6 +106,7 @@ jobs:
           echo reason="${DISPATCH_REBOTTLE_REASON}"
 
       - name: Pre-test steps
+        timeout-minutes: 10
         uses: Homebrew/actions/pre-build@main
         with:
           bottles-directory: ${{ env.BOTTLES_DIR }}
