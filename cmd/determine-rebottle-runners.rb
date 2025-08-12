@@ -70,6 +70,7 @@ module Homebrew
               runner = macos_version.to_s
               runner += "-#{tag.arch}"
               runner += "-#{ENV.fetch("GITHUB_RUN_ID")}"
+              runner += "-dispatch"
 
               { runner: }
             end

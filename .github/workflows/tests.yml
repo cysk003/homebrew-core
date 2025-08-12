@@ -229,7 +229,6 @@ jobs:
       BOTTLES_DIR: ${{matrix.workdir || github.workspace}}/bottles
     steps:
       - name: Pre-test steps
-        timeout-minutes: 10
         uses: Homebrew/actions/pre-build@main
         with:
           bottles-directory: ${{ env.BOTTLES_DIR }}
@@ -238,7 +237,7 @@ jobs:
       - name: Test formulae
         id: brew-test-bot-formulae
         run: |
-          xargs brew test-bot \
+          xargs -t brew test-bot \
             --testing-formulae="$TESTING_FORMULAE" \
             --added-formulae="$ADDED_FORMULAE" \
             --deleted-formulae="$DELETED_FORMULAE" \
@@ -363,7 +362,6 @@ jobs:
       TESTING_FORMULAE: ${{matrix.testing_formulae}}
     steps:
       - name: Pre-test steps
-        timeout-minutes: 10
         uses: Homebrew/actions/pre-build@main
         with:
           bottles-directory: ${{ env.BOTTLES_DIR }}
@@ -372,7 +370,7 @@ jobs:
 
       - name: Test dependents
         run: |
-          xargs brew test-bot \
+          xargs -t brew test-bot \
             --testing-formulae="$TESTING_FORMULAE" \
             --tested-formulae="$TESTED_FORMULAE" \
             <<<"$TEST_BOT_DEPENDENTS_ARGS"

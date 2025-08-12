@@ -302,7 +302,8 @@
     "exclude_packages": ["certifi", "cryptography", "numpy", "pygit2"]
   },
   "dvr-scan": {
-    "exclude_packages": ["numpy"]
+    "exclude_packages": ["numpy"],
+    "extra_packages": ["pyobjc-framework-cocoa"]
   },
   "dxpy": {
     "exclude_packages": ["cryptography", "certifi"]
@@ -581,6 +582,9 @@
     "extra_packages": ["mako", "packaging", "ply", "pyyaml"]
   },
   "meta-package-manager": {
+    "exclude_packages": ["certifi"]
+  },
+  "mk": {
     "exclude_packages": ["certifi"]
   },
   "molecule": {
