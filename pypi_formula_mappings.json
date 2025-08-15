@@ -349,6 +349,9 @@
   "fiona": {
     "exclude_packages": ["certifi"]
   },
+  "flexget": {
+    "exclude_packages": ["certifi"]
+  },
   "flintrock": {
     "exclude_packages": ["cryptography"]
   },
