@@ -636,6 +636,9 @@
   "okta-awscli": {
     "exclude_packages": ["certifi"]
   },
+  "omnara": {
+    "exclude_packages": ["certifi", "cryptography"]
+  },
   "onionprobe": {
     "exclude_packages": ["certifi", "cryptography"]
   },
