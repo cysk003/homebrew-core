@@ -1,4 +1,7 @@
 {
+  "abi3audit": {
+    "exclude_packages": ["certifi"]
+  },
   "acronym": {
     "exclude_packages": ["numpy"]
   },
