@@ -232,8 +232,8 @@
     "extra_packages": ["distro"]
   },
   "conda-lock": {
-    "exclude_packages": ["certifi", "cryptography"],
-    "extra_packages": ["jeepney", "secretstorage"]
+    "exclude_packages": ["certifi", "cffi", "cryptography"],
+    "extra_packages": ["jeepney", "secretstorage", "xattr"]
   },
   "cookiecutter": {
     "exclude_packages": ["certifi"]
