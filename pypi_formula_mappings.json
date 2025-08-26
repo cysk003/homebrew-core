@@ -560,6 +560,9 @@
   "locust": {
     "exclude_packages": ["certifi"]
   },
+  "mac-cleanup-py": {
+    "exclude_packages": ["cffi", "pycparser"]
+  },
   "magic-wormhole": {
     "exclude_packages": ["cryptography"]
   },
