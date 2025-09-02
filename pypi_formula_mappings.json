@@ -258,6 +258,9 @@
   "cycode": {
     "exclude_packages": ["certifi"]
   },
+  "darker": {
+    "package_name": "darker[black]"
+  },
   "datalad": {
     "package_name": "datalad[misc]",
     "extra_packages": ["jeepney", "secretstorage"],
