@@ -932,6 +932,9 @@
     "exclude_packages": ["certifi", "cryptography", "pygit2"],
     "extra_packages": ["catkin-pkg", "jeepney", "pylxd", "secretstorage"]
   },
+  "specify": {
+    "exclude_packages": ["certifi"]
+  },
   "sphinx-doc": {
     "exclude_packages": ["certifi"],
     "extra_packages": ["numpydoc"]
