@@ -90,7 +90,7 @@ jobs:
               "repos/$GITHUB_REPOSITORY/pulls/$PR/reviews"
           )"
 
-          reviewer_filter='[map(select(.author_association == "MEMBER")).[].user.login] | unique'
+          reviewer_filter='map(select(.author_association == "MEMBER")) | map(.user.login) | unique'
           reviewers="$(jq --compact-output "$reviewer_filter" <<< "$review_data")"
           approved="$(jq --raw-output 'any(.[].state; .== "APPROVED")' <<< "$review_data")"
 

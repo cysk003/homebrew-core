@@ -18,9 +18,6 @@
   "animdl": {
     "exclude_packages": ["certifi"]
   },
-  "anime-downloader": {
-    "exclude_packages": ["certifi"]
-  },
   "ansible": {
     "exclude_packages": ["certifi", "cryptography", "gnureadline"],
     "extra_packages": [
@@ -578,9 +575,6 @@
   },
   "mat2": {
     "exclude_packages": ["pygobject"]
-  },
-  "mathlibtools": {
-    "exclude_packages": ["certifi", "cryptography"]
   },
   "mcp-proxy": {
     "exclude_packages": ["certifi"]
