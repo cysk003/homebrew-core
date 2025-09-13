@@ -5,5 +5,6 @@
   "libngspice": "master",
   "ngspice": "master",
   "sdl2": "SDL2",
-  "squid": "v6"
+  "squid": "v6",
+  "xmrig": "dev"
 }
