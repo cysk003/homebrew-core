@@ -171,7 +171,7 @@
     "exclude_packages": ["certifi"]
   },
   "certbot": {
-    "extra_packages": ["certbot-apache", "certbot-nginx"],
+    "extra_packages": ["certbot-apache", "certbot-nginx", "certbot-dns-cloudflare"],
     "exclude_packages": ["certifi", "cryptography"]
   },
   "certsync": {
