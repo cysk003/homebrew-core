@@ -587,7 +587,7 @@
   },
   "mdv": "mdv[yaml]",
   "mentat": {
-    "exclude_packages": ["certifi", "numpy", "pillow"]
+    "exclude_packages": ["certifi", "numpy", "pillow", "pytest", "pytest-asyncio", "pytest-mock", "pytest-reportlog"]
   },
   "mesa": {
     "package_name": "",
@@ -946,7 +946,7 @@
     "exclude_packages": ["certifi"]
   },
   "streamrip": {
-    "exclude_packages": ["certifi", "pillow"]
+    "exclude_packages": ["certifi", "pillow", "pytest", "pytest-asyncio", "pytest-mock"]
   },
   "subliminal": {
     "exclude_packages": ["certifi"]
