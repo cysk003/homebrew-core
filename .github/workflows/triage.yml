@@ -174,7 +174,7 @@ jobs:
                 - Formula/i/icu4c@77.rb
                 - Formula/lib/libxml++@5.rb
                 - Formula/o/openssl@3.rb
-                - Formula/p/postgresql@17.rb
+                - Formula/p/postgresql@18.rb
                 - Formula/p/python@3.13.rb
                 - Formula/p/python-gdbm@3.13.rb
                 - Formula/p/python-tk@3.13.rb
