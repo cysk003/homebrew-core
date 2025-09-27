@@ -97,7 +97,6 @@ jobs:
         with:
           core: true
           cask: false
-          test-bot: false
 
       - name: Check that bottle block is not modified
         id: bottle-block
