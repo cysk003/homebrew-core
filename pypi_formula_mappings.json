@@ -585,6 +585,9 @@
   "mat2": {
     "exclude_packages": ["pygobject"]
   },
+  "mcp-atlassian": {
+    "exclude_packages": ["certifi"]
+  },
   "mcp-proxy": {
     "exclude_packages": ["certifi"]
   },
