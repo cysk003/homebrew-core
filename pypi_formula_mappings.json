@@ -873,6 +873,9 @@
   "sail": {
     "exclude_packages": ["certifi", "cryptography"]
   },
+  "sarif-tools": {
+    "exclude_packages": ["numpy", "pillow"]
+  },
   "scdl": {
     "exclude_packages": ["certifi"]
   },
