@@ -591,6 +591,9 @@
   "mcp-atlassian": {
     "exclude_packages": ["certifi"]
   },
+  "mcp-google-sheets": {
+    "exclude_packages": ["certifi"]
+  },
   "mcp-proxy": {
     "exclude_packages": ["certifi"]
   },

@@ -1,26 +1,28 @@
-class OpensslAT3 < Formula
+class OpensslAT35 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl-library.org"
-  url "https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/openssl-3.6.0.tar.gz"
-  sha256 "b6a5f44b7eb69e3fa35dbf15524405b44837a481d43d81daddde3ff21fcbb8e9"
+  url "https://github.com/openssl/openssl/releases/download/openssl-3.5.4/openssl-3.5.4.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/openssl-3.5.4.tar.gz"
+  sha256 "967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"
   license "Apache-2.0"
 
   livecheck do
     url "https://openssl-library.org/source/"
-    regex(/href=.*?openssl[._-]v?(3(?:\.\d+)+)\.t/i)
+    regex(/href=.*?openssl[._-]v?(3\.5(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    sha256 arm64_tahoe:   "932329036867164c28752b7b35f7808530b8cd79b72246bf122f36219a79d388"
-    sha256 arm64_sequoia: "9a8fa2ae1ef3424b116d7e6422d979e0290f4affdef072b1592e4535d2617d92"
-    sha256 arm64_sonoma:  "055bf163fbfd98f5de31c25b1e8cac41129d3cb21581843f7ab30aec0c35bdf7"
-    sha256 tahoe:         "422323a6751ed7c4c198d97362d8967e20379daa287db7e8311ae036b9842d62"
-    sha256 sequoia:       "a015d2e06290484b37547a57b60c6bc5bd45be0479e0c58529ffa4359a3f6225"
-    sha256 sonoma:        "cdf6125ff77ed7709a44a0ad95918801a3cfaadedbb66c781db7ccf9ab4fae58"
-    sha256 arm64_linux:   "257a655d8fcb65f1a7b2a0c4ae4cb7c8152454dacc806d7e24bc7457b299829a"
-    sha256 x86_64_linux:  "dae10cea048eae154365f18fc51154093f8ba378ace3fe138f89dda08bf09e4e"
+    sha256 arm64_tahoe:   "3f8bedcacdb7003d1f31e3fd31934930db0d2a9a075e414db2b4e688fa0235c6"
+    sha256 arm64_sequoia: "463f3305e7169463418f6a7253d34d8fc1121ed2ea010f729b1cbaa53e725f9f"
+    sha256 arm64_sonoma:  "d8fb4693f129b1ba731f9aa45c363b27638957257fa5dce2dedae99c0200d690"
+    sha256 tahoe:         "9a1f1cefcfb5fae1a0a704a9f64f4de3566c6d7c3d4d47e1b25044a9ea6a8480"
+    sha256 sequoia:       "100f356386eac48209d0d7a5c2b862c42e510a023a834e38a5f96eaab6865279"
+    sha256 sonoma:        "63bc3e14d04134c4ffdf6a1fec48dc84afd00eab66b3524d60fda99bdb140d13"
+    sha256 arm64_linux:   "799f0fd4ae8b431cd585197a1e51f24aa7165fc41df5ce217059dc70c733924c"
+    sha256 x86_64_linux:  "1399dde9e564f3bfc422bcdc358327a075d471a75b0eb1d79a07fe2f9543538f"
   end
+
+  keg_only :versioned_formula
 
   depends_on "ca-certificates"
 
@@ -43,11 +45,6 @@ class OpensslAT3 < Formula
       sha256 "30bcfd75fec4d512e9081c792f7cb590009d9de2fe285ffa8eec1be35a5ae7ca"
     end
   end
-
-  link_overwrite "bin/c_rehash", "bin/openssl", "include/openssl/*"
-  link_overwrite "lib/libcrypto*", "lib/libssl*"
-  link_overwrite "lib/pkgconfig/libcrypto.pc", "lib/pkgconfig/libssl.pc", "lib/pkgconfig/openssl.pc"
-  link_overwrite "share/doc/openssl/*", "share/man/man*/*ssl"
 
   # SSLv2 died with 1.1.0, so no-ssl2 no longer required.
   # SSLv3 & zlib are off by default with 1.1.0 but this may not
@@ -114,7 +111,7 @@ class OpensslAT3 < Formula
   end
 
   def openssldir
-    etc/"openssl@3"
+    etc/"openssl@3.5"
   end
 
   def post_install
