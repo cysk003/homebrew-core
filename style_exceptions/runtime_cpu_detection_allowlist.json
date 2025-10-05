@@ -28,6 +28,7 @@
   "nss",
   "onnxruntime",
   "openblas",
+  "openblas64",
   "opencv",
   "open-mpi",
   "postgresql@12",
