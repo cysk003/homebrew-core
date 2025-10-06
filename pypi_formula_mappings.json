@@ -63,6 +63,13 @@
     "exclude_packages": ["numpy"],
     "extra_packages": ["gymnasium"]
   },
+  "archgw": {
+    "exclude_packages": [
+      "certifi", "numpy", "torch", "pytest", "pytest-asyncio",
+      "pytest-httpserver", "pytest-retry", "python-dateutil"
+    ],
+    "extra_packages": ["filelock"]
+  },
   "arjun": {
     "exclude_packages": ["certifi"]
   },
