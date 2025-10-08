@@ -329,6 +329,7 @@ jobs:
                 cryptography|\
                 dav1d|\
                 freetype|\
+                frei0r|\
                 gcc|\
                 gettext|\
                 ghc|\

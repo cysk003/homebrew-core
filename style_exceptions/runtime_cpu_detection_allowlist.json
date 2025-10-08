@@ -41,6 +41,8 @@
   "pytorch",
   "qt",
   "qt@5",
+  "qtbase",
+  "qtwebengine",
   "spades",
   "spidermonkey",
   "svt-av1",
