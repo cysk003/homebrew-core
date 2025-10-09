@@ -304,7 +304,7 @@ jobs:
                 pcl|\
                 ponyc|\
                 pytorch|\
-                qt|\
+                qtwebengine|\
                 root|\
                 rtabmap|\
                 rust|\
@@ -372,7 +372,7 @@ jobs:
                 shared-mime-info|\
                 sqlite|\
                 suite-sparse|\
-                qt|\
+                qtwebengine|\
                 readline|\
                 unbound|\
                 xz|\
