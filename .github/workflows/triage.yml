@@ -372,7 +372,7 @@ jobs:
                 shared-mime-info|\
                 sqlite|\
                 suite-sparse|\
-                qtwebengine|\
+                qtbase|\
                 readline|\
                 unbound|\
                 xz|\
@@ -409,7 +409,8 @@ jobs:
               path: "Formula/.+/(\
                 dart-sdk|\
                 envoy|\
-                qt(@5)?|\
+                qt@5|\
+                qtwebengine|\
                 teleport|\
                 texlive\
                 ).rb"
