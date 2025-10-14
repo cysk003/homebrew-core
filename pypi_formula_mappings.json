@@ -262,6 +262,9 @@
   "cryptography": {
     "exclude_packages": ["cffi", "pycparser"]
   },
+  "cyclonedx-python": {
+    "exclude_packages": ["rpds-py"]
+  },
   "cycode": {
     "exclude_packages": ["certifi"]
   },
@@ -672,7 +675,7 @@
     "exclude_packages": ["certifi"]
   },
   "omnara": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "rpds-py"]
   },
   "onionprobe": {
     "exclude_packages": ["certifi", "cryptography"]
@@ -691,7 +694,7 @@
       "python-magnumclient", "python-manilaclient", "python-mistralclient",
       "python-octaviaclient"
     ],
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "gnureadline", "rpds-py"]
   },
   "organize-tool": {
     "exclude_packages": ["cryptography"],
@@ -734,7 +737,7 @@
     "exclude_packages": ["certifi", "cryptography"]
   },
   "pieces-cli": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "pip-audit": {
     "exclude_packages": ["certifi"]
@@ -848,6 +851,9 @@
   "qtwebengine": {
     "package_name": "",
     "extra_packages": ["html5lib"]
+  },
+  "ramalama": {
+    "exclude_packages": ["rpds-py"]
   },
   "rasterio": {
     "exclude_packages": ["certifi", "numpy"]
