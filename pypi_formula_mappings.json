@@ -199,7 +199,7 @@
   },
   "charmcraft": {
     "extra_packages": ["jeepney", "secretstorage"],
-    "exclude_packages": ["certifi", "cryptography", "pygit2"]
+    "exclude_packages": ["certifi", "cryptography", "pygit2", "rpds-py"]
   },
   "chatblade": {
     "exclude_packages": ["certifi"]
@@ -215,7 +215,7 @@
     "exclude_packages": ["certifi", "cryptography"]
   },
   "checkov": {
-    "exclude_packages": ["certifi", "numpy"]
+    "exclude_packages": ["certifi", "numpy", "rpds-py"]
   },
   "cloudformation-cli": {
     "extra_packages": ["cloudformation-cli-go-plugin", "cloudformation-cli-java-plugin", "cloudformation-cli-python-plugin", "setuptools"],
@@ -266,7 +266,7 @@
     "exclude_packages": ["rpds-py"]
   },
   "cycode": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "darker": {
     "package_name": "darker[black]"
@@ -287,7 +287,7 @@
     "exclude_packages": ["certifi"]
   },
   "dnsrobocert": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "rpds-py"]
   },
   "dnstwist": {
     "package_name": "dnstwist[full]",
@@ -640,7 +640,7 @@
   },
   "moto": {
     "package_name": "moto[all,server]",
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "rpds-py"]
   },
   "mvt": {
     "exclude_packages": ["certifi", "cryptography"]
@@ -659,7 +659,7 @@
     "exclude_packages": ["pycairo", "pygobject"]
   },
   "notifiers": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "nvchecker": "nvchecker[pypi]",
   "oci-cli": {
@@ -798,10 +798,6 @@
       "pyqtnetworkauth", "pyqtpurchasing", "pyqtwebengine"
     ]
   },
-  "python@3.8": {
-    "package_name": "",
-    "extra_packages": ["setuptools", "pip", "wheel"]
-  },
   "python@3.9": {
     "package_name": "",
     "extra_packages": ["flit-core", "setuptools", "pip", "wheel"]
@@ -908,7 +904,7 @@
     "exclude_packages": ["certifi"]
   },
   "schemathesis": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "scikit-image": {
     "exclude_packages": ["numpy", "pillow", "scipy"]
