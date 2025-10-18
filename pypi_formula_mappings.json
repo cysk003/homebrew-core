@@ -59,6 +59,9 @@
   "apprise": {
     "exclude_packages": ["certifi"]
   },
+  "aqtinstall": {
+    "exclude_packages": ["certifi"]
+  },
   "arcade-learning-environment": {
     "exclude_packages": ["numpy"],
     "extra_packages": ["gymnasium"]
@@ -106,6 +109,9 @@
   },
   "badkeys": {
     "exclude_packages": ["cryptography"]
+  },
+  "badread": {
+    "exclude_packages": ["numpy", "scipy"]
   },
   "backgroundremover": {
     "exclude_packages": ["certifi", "numpy", "torch", "torchvision", "pillow", "scipy", "scikit-image"],
@@ -160,11 +166,7 @@
     "extra_packages": ["setuptools"]
   },
   "c7n": {
-    "package_name": "",
-    "extra_packages": [
-      "argcomplete", "boto3", "docutils", "importlib-metadata", "jsonschema",
-      "python-dateutil", "pyyaml", "referencing", "tabulate", "urllib3"
-    ]
+    "exclude_packages": ["cryptography", "rpds-py"]
   },
   "cassandra": {
     "package_name": "",
@@ -195,7 +197,8 @@
     "exclude_packages": ["pycparser"]
   },
   "charm-tools": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["cheetah3", "certifi", "cryptography"],
+    "extra_packages": ["ct3"]
   },
   "charmcraft": {
     "extra_packages": ["jeepney", "secretstorage"],
@@ -362,8 +365,7 @@
   },
   "fdroidserver": {
     "package_name": "fdroidserver[optional]",
-    "exclude_packages": ["certifi", "cryptography", "numpy", "pillow", "puremagic"],
-    "extra_packages": ["androguard<4", "python-magic"]
+    "exclude_packages": ["certifi", "cryptography", "frida", "numpy", "pillow", "puremagic"]
   },
   "fiona": {
     "exclude_packages": ["certifi"]
@@ -1089,6 +1091,9 @@
   "xdot": {
     "exclude_packages": ["numpy", "pygobject"],
     "extra_packages": ["graphviz"]
+  },
+  "xml2rfc": {
+    "exclude_packages": ["certifi"]
   },
   "xonsh": "xonsh[ptk,pygments,proctitle]",
   "yewtube": {
