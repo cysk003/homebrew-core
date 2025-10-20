@@ -6,7 +6,7 @@
     "exclude_packages": ["numpy"]
   },
   "aider": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "pillow"]
   },
   "aiven-client": {
     "exclude_packages": ["certifi"]
@@ -506,6 +506,9 @@
     "extra_packages": ["pyobjc-core", "pyobjc-framework-cocoa"]
   },
   "img2pdf": {
+    "exclude_packages": ["pillow"]
+  },
+  "imgp": {
     "exclude_packages": ["pillow"]
   },
   "instaloader": {
