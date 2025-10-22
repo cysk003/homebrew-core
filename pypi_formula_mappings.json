@@ -723,7 +723,7 @@
     "exclude_packages": ["certifi", "cffi", "cryptography", "pillow", "pycparser", "rpds-py"]
   },
   "otterdog": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "rpds-py"]
   },
   "parliament": {
     "extra_packages": ["setuptools"]
@@ -1012,7 +1012,8 @@
     "exclude_packages": ["pygit2"]
   },
   "theharvester": {
-    "exclude_packages": ["cffi", "certifi"]
+    "exclude_packages": ["cffi", "certifi", "pydantic-core"],
+    "extra_packages": ["greenlet", "pyee"]
   },
   "tmt": {
     "exclude_packages": ["certifi"]
