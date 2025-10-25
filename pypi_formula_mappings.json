@@ -22,13 +22,17 @@
     "exclude_packages": ["certifi", "cryptography", "gnureadline"],
     "extra_packages": [
       "ansible-pylibssh", "apache-libcloud", "bcrypt<5", "boto3", "dnspython", "docker",
-      "junos-eznc", "jxmlease", "kerberos", "ntc-templates", "openshift",
+      "fqdn", "junos-eznc", "jxmlease", "kerberos", "ntc-templates", "openshift",
       "passlib", "pexpect", "proxmoxer", "pynetbox", "pysphere3", "python-consul",
-      "python-neutronclient", "pytz", "pywinrm", "requests-credssp", "shade", "zabbix-api"
+      "python-ldap", "python-neutronclient", "pytz", "pywinrm", "requests-credssp",
+      "shade", "zabbix-api"
     ]
   },
+  "ansible-builder": {
+    "exclude_packages": ["rpds-py"]
+  },
   "ansible-lint": {
-    "exclude_packages": ["cryptography"]
+    "exclude_packages": ["cryptography", "rpds-py"]
   },
   "ansible@8": {
     "extra_packages": [
@@ -67,11 +71,7 @@
     "extra_packages": ["gymnasium"]
   },
   "archgw": {
-    "exclude_packages": [
-      "certifi", "numpy", "torch", "pytest", "pytest-asyncio",
-      "pytest-httpserver", "pytest-retry", "python-dateutil"
-    ],
-    "extra_packages": ["filelock"]
+    "exclude_packages": ["certifi", "numpy", "torch"]
   },
   "arjun": {
     "exclude_packages": ["certifi"]
@@ -93,7 +93,7 @@
     "exclude_packages": ["certifi", "cryptography", "pydantic-core", "rpds-py"]
   },
   "aws-sso-util": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "awscli": {
     "extra_packages": ["flit-core"]
@@ -149,7 +149,7 @@
     "extra_packages": ["msgpack", "packaging"]
   },
   "borgmatic": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "bpython": {
     "exclude_packages": ["certifi"]
@@ -196,6 +196,9 @@
   "cffi": {
     "exclude_packages": ["pycparser"]
   },
+  "cfn-lint": {
+    "exclude_packages": ["pydantic-core", "rpds-py"]
+  },
   "charm-tools": {
     "exclude_packages": ["cheetah3", "certifi", "cryptography"],
     "extra_packages": ["ct3"]
@@ -208,7 +211,7 @@
     "exclude_packages": ["certifi"]
   },
   "check-jsonschema": {
-    "exclude_packages": ["certifi"],
+    "exclude_packages": ["certifi", "rpds-py"],
     "extra_packages": [
       "fqdn", "isoduration", "jsonpointer", "rfc3339-validator",
       "rfc3987", "uri-template", "webcolors"
@@ -228,6 +231,9 @@
     "exclude_packages": ["certifi"]
   },
   "cobo-cli": {
+    "exclude_packages": ["certifi"]
+  },
+  "codecov-cli": {
     "exclude_packages": ["certifi"]
   },
   "codelimit": {
@@ -310,7 +316,7 @@
   },
   "dstack": {
     "package_name": "dstack[aws,azure,gcp,lambda]",
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "rpds-py"]
   },
   "duplicity": {
     "exclude_packages": ["certifi"],
@@ -354,7 +360,7 @@
     "exclude_packages": ["certifi"]
   },
   "fastmcp": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "pydantic-core", "rpds-py"]
   },
   "fava": {
     "exclude_packages": ["certifi"]
@@ -446,7 +452,7 @@
     "extra_packages": ["lxml-html-clean"]
   },
   "gptme": {
-    "exclude_packages": ["certifi", "pillow"]
+    "exclude_packages": ["certifi", "pillow", "pydantic-core", "rpds-py"]
   },
   "graph-tool": {
     "package_name": "",
@@ -539,7 +545,10 @@
   },
   "jupyterlab": {
     "extra_packages": ["appnope", "hatch-jupyter-builder", "hatch-nodejs-version", "jupyter-console", "notebook"],
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
+  },
+  "jupytext": {
+    "exclude_packages": ["rpds-py"]
   },
   "kaskade": {
     "exclude_packages": ["certifi", "cryptography", "rpds-py"]
@@ -620,7 +629,7 @@
     "exclude_packages": ["certifi"]
   },
   "mcpm": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "pydantic-core", "rpds-py"]
   },
   "mdv": "mdv[yaml]",
   "mentat": {
@@ -743,6 +752,9 @@
   },
   "pdm": {
     "exclude_packages": ["certifi"]
+  },
+  "pelican": {
+    "package_name": "pelican[markdown]"
   },
   "pferd": {
     "exclude_packages": ["certifi", "cryptography"]
@@ -869,7 +881,7 @@
     "exclude_packages": ["certifi"]
   },
   "rawdog": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "pydantic-core", "rpds-py"]
   },
   "rbtools": {
     "exclude_packages": ["certifi"]
@@ -879,7 +891,7 @@
   },
   "recon-ng": {
     "package_name": "",
-    "exclude_packages": ["certifi"],
+    "exclude_packages": ["certifi", "rpds-py"],
     "extra_packages": [
       "pyyaml", "dnspython", "lxml", "mechanize", "requests",
       "flask", "flask-restful", "flasgger", "dicttoxml", "xlsxwriter", "unicodecsv", "rq"
@@ -937,7 +949,7 @@
     "exclude_packages": ["certifi"]
   },
   "sgr": {
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "pydantic-core", "rpds-py"]
   },
   "sherlock": {
     "exclude_packages": ["certifi", "numpy"]
@@ -966,7 +978,7 @@
     "exclude_packages": ["certifi"]
   },
   "snakemake": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "rpds-py"]
   },
   "snowflake-cli": {
     "exclude_packages": ["certifi", "cryptography"],
@@ -1002,7 +1014,7 @@
     "exclude_packages": ["certifi", "cryptography"]
   },
   "sysaidmin": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "pydantic-core", "rpds-py"]
   },
   "systemd": {
     "package_name": "",
@@ -1016,7 +1028,7 @@
     "extra_packages": ["greenlet", "pyee"]
   },
   "tmt": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "pydantic-core", "rpds-py"]
   },
   "toot": {
     "package_name": "toot[images,richtext]",
@@ -1081,7 +1093,7 @@
     "exclude_packages": ["pillow"]
   },
   "weaviate-cli": {
-    "exclude_packages": ["certifi", "cryptography", "numpy"]
+    "exclude_packages": ["certifi", "cryptography", "numpy", "pydantic-core"]
   },
   "woob": {
     "exclude_packages": ["certifi", "pillow"]
@@ -1100,6 +1112,9 @@
     "exclude_packages": ["certifi"]
   },
   "xonsh": "xonsh[ptk,pygments,proctitle]",
+  "yamlfix": {
+    "exclude_packages": ["pydantic-core"]
+  },
   "yewtube": {
     "exclude_packages": ["certifi"]
   },
