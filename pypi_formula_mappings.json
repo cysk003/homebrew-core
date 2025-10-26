@@ -71,7 +71,7 @@
     "extra_packages": ["gymnasium"]
   },
   "archgw": {
-    "exclude_packages": ["certifi", "numpy", "torch"]
+    "exclude_packages": ["certifi", "numpy", "pydantic-core", "rpds-py", "torch"]
   },
   "arjun": {
     "exclude_packages": ["certifi"]
@@ -118,7 +118,7 @@
     "extra_packages": ["imageio"]
   },
   "bagels": {
-    "exclude_packages": ["numpy"]
+    "exclude_packages": ["certifi", "numpy", "pydantic-core"]
   },
   "bandcamp-dl": {
     "exclude_packages": ["certifi"]
@@ -535,7 +535,7 @@
   },
   "jinja2-cli": "jinja2-cli[yaml,toml,xml]",
   "jiratui": {
-    "exclude_packages": ["certifi", "cryptography", "pillow"]
+    "exclude_packages": ["certifi", "cryptography", "pillow", "pydantic-core"]
   },
   "jrnl": {
     "exclude_packages": ["cryptography"]
@@ -620,10 +620,10 @@
     "exclude_packages": ["pygobject"]
   },
   "mcp-atlassian": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "pydantic-core", "rpds-py"]
   },
   "mcp-google-sheets": {
-    "exclude_packages": ["certifi"]
+    "exclude_packages": ["certifi", "pydantic-core", "rpds-py"]
   },
   "mcp-proxy": {
     "exclude_packages": ["certifi"]
@@ -633,7 +633,10 @@
   },
   "mdv": "mdv[yaml]",
   "mentat": {
-    "exclude_packages": ["certifi", "numpy", "pillow", "pytest", "pytest-asyncio", "pytest-mock", "pytest-reportlog"]
+    "exclude_packages": [
+      "certifi", "numpy", "pillow", "pytest",
+      "pytest-asyncio", "pytest-mock", "pytest-reportlog", "rpds-py"
+    ]
   },
   "mesa": {
     "package_name": "",
@@ -647,7 +650,7 @@
   },
   "molecule": {
     "extra_packages": ["molecule-plugins[azure,docker,ec2,gce,podman,vagrant,openstack]"],
-    "exclude_packages": ["certifi", "cryptography"]
+    "exclude_packages": ["certifi", "cryptography", "rpds-py"]
   },
   "mongo-orchestration": {
     "exclude_packages": ["certifi"]
@@ -835,11 +838,11 @@
   },
   "python@3.12": {
     "package_name": "",
-    "extra_packages": ["flit-core", "setuptools", "pip", "wheel"]
+    "extra_packages": ["flit-core", "pip", "wheel"]
   },
   "python@3.13": {
     "package_name": "",
-    "extra_packages": ["flit-core", "setuptools", "pip", "wheel"]
+    "extra_packages": ["flit-core", "pip", "wheel"]
   },
   "python@3.14": {
     "package_name": "",
@@ -847,7 +850,7 @@
   },
   "python-freethreading": {
     "package_name": "",
-    "extra_packages": ["flit-core", "setuptools", "pip", "wheel"]
+    "extra_packages": ["flit-core", "pip", "wheel"]
   },
   "python-lsp-server": {
     "package_name": "python-lsp-server[websockets]",
