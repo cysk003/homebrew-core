@@ -329,7 +329,8 @@ jobs:
         run: brew determine-test-runners --dependents --eval-all "$TESTING_FORMULAE"
 
   test_deps:
-    needs: [tap_syntax, formulae_detect, setup_dep_tests, setup_dep_runners, tests]
+    needs:
+      [tap_syntax, formulae_detect, setup_dep_tests, setup_dep_runners, tests]
     if: >
       (success() ||
       (failure() &&
