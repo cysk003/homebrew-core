@@ -1,29 +1,29 @@
-class NodeAT22 < Formula
+class NodeAT24 < Formula
   desc "Open-source, cross-platform JavaScript runtime environment"
   homepage "https://nodejs.org/"
-  url "https://nodejs.org/dist/v22.21.1/node-v22.21.1.tar.xz"
-  sha256 "487d73fd4db00dc2420d659a8221b181a7937fbc5bc73f31c30b1680ad6ded6a"
+  url "https://nodejs.org/dist/v24.11.0/node-v24.11.0.tar.xz"
+  sha256 "cf9c906d46446471f955b1f2c6ace8a461501d82d27e1ae8595dcb3b0e2c312a"
   license "MIT"
 
   livecheck do
     url "https://nodejs.org/dist/"
-    regex(%r{href=["']?v?(22(?:\.\d+)+)/?["' >]}i)
+    regex(%r{href=["']?v?(24(?:\.\d+)+)/?["' >]}i)
   end
 
   bottle do
-    sha256 arm64_tahoe:   "f2706eb389d2d40ce517d09c1ceeb01e47e0d1a6b0e86d7ff1649d20075c354b"
-    sha256 arm64_sequoia: "accb672adc529f45250a108f9d3faef8ea30fbb56e7092e003f30a75aeddb4c0"
-    sha256 arm64_sonoma:  "2140a8471f763849134c3e8b462b7c7d1d098a1e29fcab618dfd4a64f5a6e4f0"
-    sha256 sonoma:        "ca8a49f168409e64a6cae95a6859c09601ac5f481a4aacf2882d8ae6a24622fd"
-    sha256 arm64_linux:   "69e573836134e77122a60585979fc087fd3cc4a0f5fe21e69ecfd30abf0e5c2d"
-    sha256 x86_64_linux:  "3e5fc6d980f164caedf33494452fd2c6578c110f765df85b6f003e7554a2c514"
+    sha256 arm64_tahoe:   "a36f94ec840c048f8e4a43e75094c1757d23cd8428d79ba2ad964c85df8c15a0"
+    sha256 arm64_sequoia: "30b38c46042ae2c985133277e9cd710880e213bd722fb9f391b62da28270342e"
+    sha256 arm64_sonoma:  "33de3f20e7c28b6c6960727415af3effecc12d0ab9cc590163a185154eb1848a"
+    sha256 sonoma:        "e8b283e36f0655af2a1b4de776895be733da837f03621b79b36b91d18957b2ab"
+    sha256 arm64_linux:   "76e0457c42e8d20e9517473f47775993d4e6d2faf3bef3fb446f30a9173c70b3"
+    sha256 x86_64_linux:  "58fb0bbe9312b4569a5a7f4556d8b97bcd513218f319fc96d372fad7411a46bd"
   end
 
   keg_only :versioned_formula
 
   # https://github.com/nodejs/release#release-schedule
-  # disable! date: "2027-04-30", because: :unsupported
-  deprecate! date: "2026-10-28", because: :unsupported
+  # disable! date: "2028-04-30", because: :unsupported
+  deprecate! date: "2027-04-30", because: :unsupported
 
   depends_on "pkgconf" => :build
   depends_on "python@3.13" => :build
@@ -36,8 +36,7 @@ class NodeAT22 < Formula
   depends_on "libuv"
   depends_on "openssl@3"
   depends_on "simdjson"
-  depends_on "simdutf"
-  depends_on "sqlite"
+  depends_on "sqlite" # Fails with macOS sqlite.
   depends_on "uvwasi"
   depends_on "zstd"
 
@@ -45,21 +44,30 @@ class NodeAT22 < Formula
   uses_from_macos "zlib"
 
   on_macos do
-    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1100
+    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1699
   end
 
+  # https://github.com/swiftlang/llvm-project/commit/078651b6de4b767b91e3e6a51e5df11a06d7bc4f
   fails_with :clang do
-    build 1100
-    cause <<~EOS
-      error: calling a private constructor of class 'v8::internal::(anonymous namespace)::RegExpParserImpl<uint8_t>'
-    EOS
+    build 1699
+    cause "needs SFINAE-friendly std::pointer_traits"
+  end
+
+  # https://github.com/nodejs/node/blob/main/BUILDING.md#supported-toolchains
+  # https://github.com/ada-url/ada?tab=readme-ov-file#requirements
+  fails_with :gcc do
+    version "11"
+    cause "needs GCC 12 or newer"
   end
 
   def install
-    ENV.llvm_clang if OS.mac? && (DevelopmentTools.clang_build_version <= 1100)
-
     # make sure subprocesses spawned by make are using our Python 3
     ENV["PYTHON"] = which("python3.13")
+
+    # Ensure Homebrew deps are used
+    %w[brotli icu-small nghttp2 ngtcp2 simdjson sqlite uvwasi zstd].each do |dep|
+      rm_r buildpath/"deps"/dep
+    end
 
     args = %W[
       --prefix=#{prefix}
@@ -72,7 +80,6 @@ class NodeAT22 < Formula
       --shared-ngtcp2
       --shared-openssl
       --shared-simdjson
-      --shared-simdutf
       --shared-sqlite
       --shared-uvwasi
       --shared-zlib
@@ -93,8 +100,6 @@ class NodeAT22 < Formula
       --shared-openssl-libpath=#{Formula["openssl@3"].lib}
       --shared-simdjson-includes=#{Formula["simdjson"].include}
       --shared-simdjson-libpath=#{Formula["simdjson"].lib}
-      --shared-simdutf-includes=#{Formula["simdutf"].include}
-      --shared-simdutf-libpath=#{Formula["simdutf"].lib}
       --shared-sqlite-includes=#{Formula["sqlite"].include}
       --shared-sqlite-libpath=#{Formula["sqlite"].lib}
       --shared-uvwasi-includes=#{Formula["uvwasi"].include}/uvwasi
@@ -106,15 +111,19 @@ class NodeAT22 < Formula
 
     # Enabling LTO errors on Linux with:
     # terminate called after throwing an instance of 'std::out_of_range'
+    # macOS also can't build with LTO when using LLVM Clang
     # LTO is unpleasant if you have to build from source.
-    args << "--enable-lto" if OS.mac? && build.bottle?
+    # FIXME: re-enable me, currently crashes sequoia runner after 6 hours
+    # args << "--enable-lto" if OS.mac? && DevelopmentTools.clang_build_version > 1699 && build.bottle?
 
     # TODO: Try to devendor these libraries.
     # - `--shared-ada` needs the `ada-url` formula, but requires C++20
+    # - `--shared-simdutf` seems to result in build failures.
     # - `--shared-http-parser` and `--shared-uvwasi` are not available as dependencies in Homebrew.
     ignored_shared_flags = %w[
       ada
       http-parser
+      simdutf
     ].map { |library| "--shared-#{library}" }
 
     configure_help = Utils.safe_popen_read("./configure", "--help")
@@ -136,9 +145,6 @@ class NodeAT22 < Formula
   end
 
   test do
-    # Make sure Mojave does not have `CC=llvm_clang`.
-    ENV.clang if OS.mac?
-
     path = testpath/"test.js"
     path.write "console.log('hello');"
 
@@ -162,5 +168,67 @@ class NodeAT22 < Formula
     assert_path_exists bin/"npx", "npx must exist"
     assert_predicate bin/"npx", :executable?, "npx must be executable"
     assert_match "< hello >", shell_output("#{bin}/npx --yes cowsay hello")
+
+    # Test `uvwasi` is linked correctly
+    (testpath/"wasi-smoke-test.mjs").write <<~JAVASCRIPT
+      import { WASI } from 'node:wasi';
+
+      // Minimal WASM that:
+      //   - imports wasi proc_exit(i32)->()
+      //   - exports memory (required by Node's WASI binding)
+      //   - exports _start which calls proc_exit(42)
+      const wasmBytes = new Uint8Array([
+        // \0asm + version
+        0x00,0x61,0x73,0x6d, 0x01,0x00,0x00,0x00,
+
+        // Type section: 2 types: (i32)->() and ()->()
+        0x01,0x08, 0x02,
+          0x60,0x01,0x7f,0x00,
+          0x60,0x00,0x00,
+
+        // Import section: wasi_snapshot_preview1.proc_exit : func(type 0)
+        0x02,0x24, 0x01,
+          0x16, // module name len = 22
+            0x77,0x61,0x73,0x69,0x5f,0x73,0x6e,0x61,0x70,0x73,0x68,0x6f,0x74,0x5f,0x70,0x72,0x65,0x76,0x69,0x65,0x77,0x31,
+          0x09, // name len = 9
+            0x70,0x72,0x6f,0x63,0x5f,0x65,0x78,0x69,0x74,
+          0x00, // import kind = func
+          0x00, // type index 0
+
+        // Function section: 1 function (type index 1 = ()->())
+        0x03,0x02, 0x01, 0x01,
+
+        // Memory section: one memory with min=1 page; export later
+        0x05,0x03, 0x01, 0x00, 0x01,
+
+        // Export section: export "_start" (func 1) and "memory" (mem 0)
+        0x07,0x13, 0x02,
+          0x06, 0x5f,0x73,0x74,0x61,0x72,0x74, 0x00, 0x01,
+          0x06, 0x6d,0x65,0x6d,0x6f,0x72,0x79, 0x02, 0x00,
+
+        // Code section: body for func 1: i32.const 42; call 0; end
+        0x0a,0x08, 0x01,
+          0x06, 0x00, 0x41,0x2a, 0x10,0x00, 0x0b
+      ]);
+
+      const wasi = new WASI({
+        version: 'preview1',
+        returnOnExit: true
+      });
+
+      const { instance } = await WebAssembly.instantiate(wasmBytes, wasi.getImportObject());
+
+      // This should return 42 if uvwasi is correctly linked & wired.
+      const rc = wasi.start(instance);
+      if (rc === 42) {
+        console.log('PASS: uvwasi proc_exit(42) worked (exitCode=42)');
+        process.exit(0);
+      } else {
+        console.error('FAIL: unexpected return', rc);
+        process.exit(2);
+      }
+    JAVASCRIPT
+
+    system bin/"node", "wasi-smoke-test.mjs"
   end
 end
