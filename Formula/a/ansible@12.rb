@@ -1,22 +1,30 @@
-class Ansible < Formula
+class AnsibleAT12 < Formula
   include Language::Python::Virtualenv
 
   desc "Automate deployment, configuration, and upgrading"
   homepage "https://www.ansible.com/"
-  url "https://files.pythonhosted.org/packages/5b/34/f6ca83d5fb10954bc4ac07cda823f8f822edeadbbb5f9d16942e6d9ce62c/ansible-13.0.0.tar.gz"
-  sha256 "fd0f4a29c3e77617011b98d80e4579c31e1d58f40928d3e8fd5e434696676797"
+  url "https://files.pythonhosted.org/packages/00/1e/154896819d41cb9a5266759244285c7b594a199e2543263764a022b86618/ansible-12.2.0.tar.gz"
+  sha256 "0563dfd33ebd28caf6ccdc7a6d22a7fdafbd9c9c42fefcae5179616a53a35211"
   license "GPL-3.0-or-later"
-  head "https://github.com/ansible/ansible.git", branch: "devel"
+
+  livecheck do
+    url "https://pypi.org/rss/project/ansible/releases.xml"
+    regex(/^v?(12(?:\.\d+)+)$/i)
+    strategy :xml do |xml, regex|
+      xml.get_elements("//item/title").map { |item| item.text[regex, 1] }
+    end
+  end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_tahoe:   "cc16bbe89bbabb08a53bcebe2e447adc2154bd003428aa717d9e7d4b420d8865"
-    sha256 cellar: :any,                 arm64_sequoia: "4146688d02670b1bd5234902df9e8b8cbd2064790d92437e6712a1116f3398f6"
-    sha256 cellar: :any,                 arm64_sonoma:  "9f681233f36458e5ef39296c0782fd72e042729e53533aefa679edcf6a66582c"
-    sha256 cellar: :any,                 sonoma:        "37bbe665f86050eacf683781b29a2ad8b88f6a5c242f1524df444bd289954483"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "752dc3be865a7326cf08193b6d72b410bd8fa9fe7d2e4cad60860a814edb8e9e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9b4e400522527c80761b1181c62dd2c8a0de30808632b1f06fd45f5088c1a5a7"
+    sha256 cellar: :any,                 arm64_tahoe:   "e08dd4f9d7412b7826b51bed51d8b169832e7ed56882b472cca262d25ea1c5df"
+    sha256 cellar: :any,                 arm64_sequoia: "676bef46e2caaf4a3433d3488dd39a1e6b8bd283011d987c38ad310ae4240427"
+    sha256 cellar: :any,                 arm64_sonoma:  "e40a073c035f7c034321fd2fb059f3ed1421db2e63b43016612889245b589c8e"
+    sha256 cellar: :any,                 sonoma:        "271b1d7ec5e2baf478e0331ca46d4ea5638b742c460d962a6f69045240c11de0"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "59d4453be3451cb8b6f821ef4b5da37d17435b3d466507a13c798f44b105aca1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d2c5a58be27e8a00e03cd9e683b500e19d297058388784c3f1d221a02dcea609"
   end
+
+  keg_only :versioned_formula
 
   # `pkgconf` and `rust` are for bcrypt
   depends_on "pkgconf" => :build
@@ -26,7 +34,7 @@ class Ansible < Formula
   depends_on "libsodium" # for pynacl
   depends_on "libssh"
   depends_on "libyaml"
-  depends_on "python@3.14"
+  depends_on "python@3.13"
   depends_on "tree" # for ansible-role-init
 
   uses_from_macos "krb5"
@@ -34,8 +42,9 @@ class Ansible < Formula
   uses_from_macos "libxslt"
   uses_from_macos "openldap" # for python-ldap
 
+  # passlib doesn't work with bcrypt v5+: https://github.com/ansible/ansible/issues/85919
   pypi_packages exclude_packages: %w[certifi cryptography gnureadline],
-                extra_packages:   %w[ansible-pylibssh apache-libcloud boto3 dnspython docker
+                extra_packages:   %w[ansible-pylibssh apache-libcloud bcrypt<5 boto3 dnspython docker
                                      fqdn junos-eznc jxmlease kerberos ntc-templates openshift
                                      passlib pexpect proxmoxer pynetbox pysphere3 python-consul
                                      python-ldap python-neutronclient pytz pywinrm requests-credssp
@@ -50,8 +59,8 @@ class Ansible < Formula
   end
 
   resource "ansible-core" do
-    url "https://files.pythonhosted.org/packages/02/5b/8992daa4102cf92eca06f7e40d9c9cfdb2d6440719dff9944417c570fea6/ansible_core-2.20.0.tar.gz"
-    sha256 "cd73faf28a056c933bc1eee8f66ab597e7ec7309d42c8a6e5d6e4294c4a78b54"
+    url "https://files.pythonhosted.org/packages/6b/ef/35f14c0d8877f6ed233c4a03f5bc161b88342e97dec3e8e04f418f28136f/ansible_core-2.19.4.tar.gz"
+    sha256 "888db6593f2fd42cd05bdbe546704d9c969dce99e3373a54498f6dbefcfa1917"
   end
 
   resource "ansible-pylibssh" do
@@ -76,18 +85,18 @@ class Ansible < Formula
   end
 
   resource "bcrypt" do
-    url "https://files.pythonhosted.org/packages/d4/36/3329e2518d70ad8e2e5817d5a4cac6bba05a47767ec416c7d020a965f408/bcrypt-5.0.0.tar.gz"
-    sha256 "f748f7c2d6fd375cc93d3fba7ef4a9e3a092421b8dbf34d8d4dc06be9492dfdd"
+    url "https://files.pythonhosted.org/packages/bb/5d/6d7433e0f3cd46ce0b43cd65e1db465ea024dbb8216fb2404e919c2ad77b/bcrypt-4.3.0.tar.gz"
+    sha256 "3a3fd2204178b6d2adcf09cb4f6426ffef54762577a7c9b54c159008cb288c18"
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/26/04/8cf6cf7e6390c71b9c958f3bfedc45d1182b51a35f7789354bf7b2ff4e8c/boto3-1.40.76.tar.gz"
-    sha256 "16f4cf97f8dd8e0aae015f4dc66219bd7716a91a40d1e2daa0dafa241a4761c5"
+    url "https://files.pythonhosted.org/packages/dd/4f/92744c97f42e214948b9c8eff86e7e72c7ca8be788867a8aea80dc192052/boto3-1.41.0.tar.gz"
+    sha256 "73bf7f63152406404c0359c013a692e884b98a3b297160058a38f00ef19e375b"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/07/eb/50e2d280589a3c20c3b649bb66262d2b53a25c03262e4cc492048ac7540a/botocore-1.40.76.tar.gz"
-    sha256 "2b16024d68b29b973005adfb5039adfe9099ebe772d40a90ca89f2e165c495dc"
+    url "https://files.pythonhosted.org/packages/c4/8d/af94a3a0a5dc3ff255fdbd9a4bdf8e41beb33ea61ebab92e3d8e017f9ee4/botocore-1.41.0.tar.gz"
+    sha256 "555afbf86a644bfa4ebd7bd98d717b53b792e6bbb2c49f2b308fb06964cf1655"
   end
 
   resource "cachetools" do
@@ -323,11 +332,6 @@ class Ansible < Formula
   resource "passlib" do
     url "https://files.pythonhosted.org/packages/b6/06/9da9ee59a67fae7761aab3ccc84fa4f3f33f125b370f1ccdb915bf967c11/passlib-1.7.4.tar.gz"
     sha256 "defd50f72b65c5402ab2c573830a6978e5f202ad0d984793c8dde2c4152ebe04"
-
-    # bcrypt no longer truncates long passwords: https://github.com/pyca/bcrypt/commit/d50ab05b2bece07d5c8d6a4179064fc714fd9126
-    # And breaks unmaintained passlib: https://foss.heptapod.net/python-libs/passlib/-/issues/196
-    # See also https://github.com/ansible/ansible/issues/85919
-    patch :DATA
   end
 
   resource "pbr" do
@@ -643,17 +647,3 @@ class Ansible < Formula
     end
   end
 end
-
-__END__
-diff --git a/passlib/handlers/bcrypt.py b/passlib/handlers/bcrypt.py
---- a/passlib/handlers/bcrypt.py
-+++ b/passlib/handlers/bcrypt.py
-@@ -644,7 +644,7 @@
-         config = self._get_config(ident)
-         if isinstance(config, str):
-             config = config.encode("ascii")
--        hash = _bcrypt.hashpw(secret, config)
-+        hash = _bcrypt.hashpw(secret[:72], config)
-         assert isinstance(hash, bytes)
-         if not hash.startswith(config) or len(hash) != len(config)+31:
-             raise uh.exc.CryptBackendError(self, config, hash, source="`bcrypt` package")
