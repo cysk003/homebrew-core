@@ -1,27 +1,24 @@
-class LlvmAT18 < Formula
+class LlvmAT21 < Formula
   desc "Next-gen compiler infrastructure"
   homepage "https://llvm.org/"
-  url "https://github.com/llvm/llvm-project/releases/download/llvmorg-18.1.8/llvm-project-18.1.8.src.tar.xz"
-  sha256 "0b58557a6d32ceee97c8d533a59b9212d87e0fc4d2833924eb6c611247db2f2a"
+  url "https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.8/llvm-project-21.1.8.src.tar.xz"
+  sha256 "4633a23617fa31a3ea51242586ea7fb1da7140e426bd62fc164261fe036aa142"
   # The LLVM Project is under the Apache License v2.0 with LLVM Exceptions
   license "Apache-2.0" => { with: "LLVM-exception" }
 
   livecheck do
-    skip "No longer developed or maintained"
+    url :stable
+    regex(/^llvmorg[._-]v?(21(?:\.\d+)+)$/i)
   end
 
   bottle do
-    rebuild 2
-    sha256 cellar: :any,                 arm64_tahoe:   "1e9a19bff9679522f731a5b45d9667a544f505a10f25bb2ec85a3743976e3a27"
-    sha256 cellar: :any,                 arm64_sequoia: "7444fd9adfdec6b4f388f2a321d802115f839aa4c45f565aee25284504e9e225"
-    sha256 cellar: :any,                 arm64_sonoma:  "84f895cfadaeba96a43db53c1bea77b6ab731326719fe6021ef9d30d55695620"
-    sha256 cellar: :any,                 sonoma:        "56bb12c01aa3f619f88d4f06220fa2ddd6e7d4dcc87860e3f3087ec211e1bf41"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "9ec22755167c15a099347cfa71da87ed7855c1a086a59d3524162749045499ee"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a4a95ef131b99b1ceb7fd5b6a16626efee62722f53ebc74fbcfddf50a785f8b4"
+    sha256 cellar: :any,                 arm64_tahoe:   "e3a3579a56ca64c479040de7eb4d0748efe369338216e81af2e59e3aed608c58"
+    sha256 cellar: :any,                 arm64_sequoia: "71f4ead77d52d42da9dd7f34441b45304474837b7ace887c7669048f830df6e6"
+    sha256 cellar: :any,                 arm64_sonoma:  "1d8422fcaacee615ff78ba5ac530b8a141ce127087b3e861ba1faf972dc88256"
+    sha256 cellar: :any,                 sonoma:        "e58f968196af2f0db01f546cae78792d0b0cf885641c380ec3efa10817f52d13"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "faaf642e58e4d98e64681beeaa811f269a88eeddeae4d53bc0626311f659d459"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3e924cb91a56d752a2fb9ea4a01d02838df973611f59ff51747b60c4d67bf82b"
   end
-
-  # Clang cannot find system headers if Xcode CLT is not installed
-  pour_bottle? only_if: :clt_installed
 
   keg_only :versioned_formula
 
@@ -33,7 +30,6 @@ class LlvmAT18 < Formula
 
   uses_from_macos "libedit"
   uses_from_macos "libffi"
-  uses_from_macos "ncurses"
 
   on_linux do
     depends_on "binutils" => :build # needed for LLVMgold plugin
@@ -41,8 +37,19 @@ class LlvmAT18 < Formula
     depends_on "zlib-ng-compat"
   end
 
+  # Fix triple config loading for clang-cl
+  # https://github.com/llvm/llvm-project/pull/111397
+  patch do
+    url "https://github.com/llvm/llvm-project/compare/1381ad497b9a6d3da630cbef53cbfa9ddf117bb6...40a8c7c0ff3f688b690e4c74db734de67f0f89e9.diff"
+    sha256 "f6dafd762737eb79761ab7ef814a9fc802ec4bb8d20f46691f07178053b0eb36"
+  end
+
   def python3
     "python3.14"
+  end
+
+  def clang_config_file_dir
+    etc/"clang"
   end
 
   def install
@@ -54,7 +61,6 @@ class LlvmAT18 < Formula
     projects = %w[
       clang
       clang-tools-extra
-      lld
       mlir
       polly
     ]
@@ -82,7 +88,7 @@ class LlvmAT18 < Formula
       -DLLVM_POLLY_LINK_INTO_TOOLS=ON
       -DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON
       -DLLVM_LINK_LLVM_DYLIB=ON
-      -DLLVM_ENABLE_EH=ON
+      -DLLVM_ENABLE_EH=OFF
       -DLLVM_ENABLE_FFI=ON
       -DLLVM_ENABLE_RTTI=ON
       -DLLVM_INCLUDE_DOCS=OFF
@@ -91,14 +97,23 @@ class LlvmAT18 < Formula
       -DLLVM_ENABLE_Z3_SOLVER=OFF
       -DLLVM_OPTIMIZED_TABLEGEN=ON
       -DLLVM_TARGETS_TO_BUILD=all
+      -DLLVM_USE_RELATIVE_PATHS_IN_FILES=ON
+      -DLLVM_SOURCE_PREFIX=.
       -DLIBCXX_INSTALL_MODULES=ON
       -DCLANG_PYTHON_BINDINGS_VERSIONS=#{python_versions.join(";")}
       -DLLVM_CREATE_XCODE_TOOLCHAIN=OFF
       -DCLANG_FORCE_MATCHING_LIBCLANG_SOVERSION=OFF
-      -DPACKAGE_VENDOR=#{tap.user}
-      -DBUG_REPORT_URL=#{tap.issues_url}
-      -DCLANG_VENDOR_UTI=org.#{tap.user.downcase}.clang
+      -DCLANG_CONFIG_FILE_SYSTEM_DIR=#{clang_config_file_dir.relative_path_from(bin)}
+      -DCLANG_CONFIG_FILE_USER_DIR=~/.config/clang
     ]
+
+    if tap.present?
+      args += %W[
+        -DPACKAGE_VENDOR=#{tap.user}
+        -DBUG_REPORT_URL=#{tap.issues_url}
+      ]
+      args << "-DCLANG_VENDOR_UTI=sh.brew.clang" if tap.official?
+    end
 
     runtimes_cmake_args = []
     builtins_cmake_args = []
@@ -109,14 +124,16 @@ class LlvmAT18 < Formula
       args << "-DFFI_LIBRARY_DIR=#{macos_sdk}/usr/lib"
 
       libcxx_install_libdir = lib/"c++"
-      libcxx_rpaths = [loader_path, rpath(source: libcxx_install_libdir)]
+      libunwind_install_libdir = lib/"unwind"
+      libcxx_rpaths = [loader_path, rpath(source: libcxx_install_libdir, target: libunwind_install_libdir)]
 
       args << "-DLLVM_BUILD_LLVM_C_DYLIB=ON"
       args << "-DLLVM_ENABLE_LIBCXX=ON"
-      args << "-DLIBCXX_PSTL_CPU_BACKEND=libdispatch"
+      args << "-DLIBCXX_ENABLE_VENDOR_AVAILABILITY_ANNOTATIONS=ON"
+      args << "-DLIBCXX_PSTL_BACKEND=libdispatch"
       args << "-DLIBCXX_INSTALL_LIBRARY_DIR=#{libcxx_install_libdir}"
+      args << "-DLIBUNWIND_INSTALL_LIBRARY_DIR=#{libunwind_install_libdir}"
       args << "-DLIBCXXABI_INSTALL_LIBRARY_DIR=#{libcxx_install_libdir}"
-      args << "-DDEFAULT_SYSROOT=#{macos_sdk}" if macos_sdk
       runtimes_cmake_args << "-DCMAKE_INSTALL_RPATH=#{libcxx_rpaths.join("|")}"
 
       # Disable builds for OSes not supported by the CLT SDK.
@@ -203,6 +220,18 @@ class LlvmAT18 < Formula
       system "/usr/libexec/PlistBuddy", "-c", "Add:CompatibilityVersion integer 2", "Info.plist"
       xctoolchain.install "Info.plist"
       (xctoolchain/"usr").install_symlink [bin, include, lib, libexec, share]
+
+      # Install a major-versioned symlink that can be used across minor/patch version upgrades.
+      xctoolchain.parent.install_symlink xctoolchain.basename.to_s => "LLVM#{soversion}.xctoolchain"
+
+      # Write config files for each macOS major version so that this works across OS upgrades.
+      MacOSVersion::SYMBOLS.each_value do |v|
+        macos_version = MacOSVersion.new(v)
+        write_config_files(macos_version, MacOSVersion.kernel_major_version(macos_version), Hardware::CPU.arch)
+      end
+
+      # Also write an unversioned config file as fallback
+      write_config_files("", "", Hardware::CPU.arch)
     end
 
     # Install Vim plugins
@@ -214,16 +243,86 @@ class LlvmAT18 < Formula
     elisp.install llvmpath.glob("utils/emacs/*.el") + share.glob("clang/*.el")
   end
 
-  def caveats
-    on_macos do
-      <<~EOS
-        To use the bundled libc++ please add the following LDFLAGS:
-          LDFLAGS="-L#{opt_lib}/c++ -L#{opt_lib} -lunwind"
-      EOS
+  # We use the extra layer of indirection in `arch` because the FormulaAudit/OnSystemConditionals
+  # doesn't want to let us use `Hardware::CPU.arch` outside of `install` or `post_install` blocks.
+  def write_config_files(macos_version, kernel_version, arch)
+    clang_config_file_dir.mkpath
+
+    arches = Set.new([:arm64, :x86_64, :aarch64])
+    arches << arch
+
+    sysroot = if macos_version.blank? || MacOS.version > macos_version
+      "#{MacOS::CLT::PKG_PATH}/SDKs/MacOSX.sdk"
+    else
+      "#{MacOS::CLT::PKG_PATH}/SDKs/MacOSX#{macos_version}.sdk"
+    end
+
+    {
+      darwin: kernel_version,
+      macosx: macos_version,
+    }.each do |system, version|
+      arches.each do |target_arch|
+        config_file = "#{target_arch}-apple-#{system}#{version}.cfg"
+        (clang_config_file_dir/config_file).atomic_write <<~CONFIG
+          -isysroot #{sysroot}
+        CONFIG
+      end
     end
   end
 
+  def post_install
+    return unless OS.mac?
+
+    config_files = {
+      darwin: OS.kernel_version.major,
+      macosx: MacOS.version,
+    }.map do |system, version|
+      clang_config_file_dir/"#{Hardware::CPU.arch}-apple-#{system}#{version}.cfg"
+    end
+    return if config_files.all?(&:exist?)
+
+    write_config_files(MacOS.version, OS.kernel_version.major, Hardware::CPU.arch)
+  end
+
+  def caveats
+    s = <<~EOS
+      CLANG_CONFIG_FILE_SYSTEM_DIR: #{clang_config_file_dir}
+      CLANG_CONFIG_FILE_USER_DIR:   ~/.config/clang
+
+      LLD is now provided in a separate formula:
+        brew install lld@21
+    EOS
+
+    on_macos do
+      s += <<~EOS
+
+        Using `clang`, `clang++`, etc., requires a CLT installation at `/Library/Developer/CommandLineTools`.
+        If you don't want to install the CLT, you can write appropriate configuration files pointing to your
+        SDK at ~/.config/clang.
+
+        To use the bundled libunwind please use the following LDFLAGS:
+          LDFLAGS="-L#{opt_lib}/unwind -lunwind"
+
+        To use the bundled libc++ please use the following LDFLAGS:
+          LDFLAGS="-L#{opt_lib}/c++ -L#{opt_lib}/unwind -lunwind"
+        Features newer than system libc++ will require the following define to enable:
+          CPPFLAGS="-D_LIBCPP_DISABLE_AVAILABILITY"
+
+        NOTE: You probably want to use the libunwind and libc++ provided by macOS unless you know what you're doing.
+      EOS
+    end
+
+    s
+  end
+
   test do
+    alt_location_libs = [
+      shared_library("libc++", "*"),
+      shared_library("libc++abi", "*"),
+      shared_library("libunwind", "*"),
+    ]
+    assert_empty lib.glob(alt_location_libs) if OS.mac?
+
     llvm_version = Utils.safe_popen_read(bin/"llvm-config", "--version").strip
     llvm_version_major = Version.new(llvm_version).major.to_s
     soversion = llvm_version_major.dup
@@ -245,12 +344,18 @@ class LlvmAT18 < Formula
 
     (testpath/"test.cpp").write <<~CPP
       #include <iostream>
+      #include <string>
       int main()
       {
-        std::cout << "Hello World!" << std::endl;
+        std::string str = "Hello World!";
+        std::size_t str_hash = std::hash<std::string>{}(str);
+        std::cout << str << std::endl;
         return 0;
       }
     CPP
+
+    system bin/"clang-cpp", "-v", "test.c"
+    system bin/"clang-cpp", "-v", "test.cpp"
 
     # Testing default toolchain and SDK location.
     system bin/"clang++", "-v",
@@ -260,18 +365,6 @@ class LlvmAT18 < Formula
     system bin/"clang", "-v", "test.c", "-o", "test"
     assert_equal "Hello World!", shell_output("./test").chomp
 
-    # To test `lld`, we mock a broken `ld` to make sure it's not what's being used.
-    (testpath/"fake_ld.c").write <<~C
-      int main() { return 1; }
-    C
-    (testpath/"bin").mkpath
-    system ENV.cc, "-v", "fake_ld.c", "-o", "bin/ld"
-    with_env(PATH: "#{testpath}/bin:#{ENV["PATH"]}") do
-      # Our fake `ld` will produce a compilation error if it is used instead of `lld`.
-      system bin/"clang", "-v", "test.c", "-o", "test_lld", "-fuse-ld=lld"
-    end
-    assert_equal "Hello World!", shell_output("./test_lld").chomp
-
     # These tests should ignore the usual SDK includes
     with_env(CPATH: nil) do
       # Testing Command Line Tools
@@ -279,6 +372,7 @@ class LlvmAT18 < Formula
         toolchain_path = "/Library/Developer/CommandLineTools"
         cpp_base = (MacOS.version >= :big_sur) ? MacOS::CLT.sdk_path : toolchain_path
         system bin/"clang++", "-v",
+               "--no-default-config",
                "-isysroot", MacOS::CLT.sdk_path,
                "-isystem", "#{cpp_base}/usr/include/c++/v1",
                "-isystem", "#{MacOS::CLT.sdk_path}/usr/include",
@@ -288,12 +382,35 @@ class LlvmAT18 < Formula
         assert_equal "Hello World!", shell_output("./testCLT++").chomp
         system bin/"clang", "-v", "test.c", "-o", "testCLT"
         assert_equal "Hello World!", shell_output("./testCLT").chomp
+
+        targets = ["#{Hardware::CPU.arch}-apple-macosx#{MacOS.full_version}"]
+
+        # The test tends to time out on Intel, so let's do these only for ARM macOS.
+        if Hardware::CPU.arm?
+          old_macos_version = HOMEBREW_MACOS_OLDEST_SUPPORTED.to_i - 1
+          targets << "#{Hardware::CPU.arch}-apple-macosx#{old_macos_version}"
+
+          old_kernel_version = MacOSVersion.kernel_major_version(MacOSVersion.new(old_macos_version.to_s))
+          targets << "#{Hardware::CPU.arch}-apple-darwin#{old_kernel_version}"
+        end
+
+        targets.each do |target|
+          system bin/"clang-cpp", "-v", "--target=#{target}", "test.c"
+          system bin/"clang-cpp", "-v", "--target=#{target}", "test.cpp"
+
+          system bin/"clang", "-v", "--target=#{target}", "test.c", "-o", "test-macosx"
+          assert_equal "Hello World!", shell_output("./test-macosx").chomp
+
+          system bin/"clang++", "-v", "--target=#{target}", "-std=c++11", "test.cpp", "-o", "test++-macosx"
+          assert_equal "Hello World!", shell_output("./test++-macosx").chomp
+        end
       end
 
       # Testing Xcode
       if OS.mac? && MacOS::Xcode.installed?
         cpp_base = (MacOS::Xcode.version >= "12.5") ? MacOS::Xcode.sdk_path : MacOS::Xcode.toolchain_path
         system bin/"clang++", "-v",
+               "--no-default-config",
                "-isysroot", MacOS::Xcode.sdk_path,
                "-isystem", "#{cpp_base}/usr/include/c++/v1",
                "-isystem", "#{MacOS::Xcode.sdk_path}/usr/include",
