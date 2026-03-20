@@ -30,7 +30,7 @@ jobs:
     permissions:
       contents: read
     container:
-      image: ghcr.io/homebrew/ubuntu24.04:main
+      image: ghcr.io/homebrew/brew:main
     steps:
       - name: Set up Homebrew
         id: setup-homebrew
@@ -40,10 +40,16 @@ jobs:
           cask: false
 
       - uses: Homebrew/actions/cache-homebrew-prefix@main
+        # Don't cache the prefix for the formulae.brew.sh repository as it won't download its own JSON API files
+        if: github.repository != 'Homebrew/formulae.brew.sh'
         with:
           install: actionlint shellcheck zizmor
           # Not needed in .github but required for other repositories with multiple uses of cache-homebrew-prefix.
           workflow-key: actionlint
+
+      - name: Install tools
+        if: github.repository == 'Homebrew/formulae.brew.sh'
+        run: brew install actionlint shellcheck zizmor
 
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
