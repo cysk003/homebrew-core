@@ -11,7 +11,6 @@ on:
 env:
   HOMEBREW_DEVELOPER: 1
   HOMEBREW_GITHUB_ACTIONS: 1
-  HOMEBREW_SANDBOX_LINUX: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALL_FROM_API: 1
   # TODO: Disable this for `tap_syntax`, `brew audit` and `brew readall`.
@@ -333,7 +332,9 @@ jobs:
 
       - name: Determine runners to use for test_deps job
         id: determine-dependent-runners
-        run: brew determine-test-runners --dependents --eval-all --dependent-shards="$DEPENDENT_SHARDS" "$TESTING_FORMULAE"
+        run: brew determine-test-runners --dependents --dependent-shards="$DEPENDENT_SHARDS" "$TESTING_FORMULAE"
+        env:
+          HOMEBREW_REQUIRE_TAP_TRUST: 1
 
   test_deps:
     needs:
