@@ -333,30 +333,41 @@ jobs:
             - label: long dependent tests
               path: "Formula/.+/(\
                 boost|\
-                cabal-install|\
                 cmake|\
                 freetype|\
                 gcc|\
                 gettext|\
-                ghc|\
                 glib|\
                 gtk\\+3|\
                 jpeg-turbo|\
-                libomp|\
                 libpng|\
                 node|\
                 numpy|\
                 openblas|\
-                openjdk|\
                 openssl@3|\
                 pango|\
                 pcre2|\
                 python@3.14|\
                 qtbase|\
                 readline|\
-                rust|\
-                xz|\
                 zstd\
+                ).rb"
+              keep_if_no_match: true
+              allow_any_match: true
+
+            - label: CI-parallel-dependents
+              path: "Formula/.+/(\
+                cabal-install|\
+                docbook-xsl|\
+                erlang|\
+                ghc|\
+                go|\
+                libxml2|\
+                ocaml|\
+                ocaml-findlib|\
+                openjdk|\
+                pkgconf|\
+                rust\
                 ).rb"
               keep_if_no_match: true
               allow_any_match: true
@@ -367,17 +378,17 @@ jobs:
                     cabal-install|\
                     docbook-xsl|\
                     emscripten|\
-                    erlang|\
                     ocaml|\
                     ocaml-findlib|\
                     ocaml-num|\
-                    openjdk|\
                     pyqt-builder|\
                     rust\
                     )\\.rb"
                 - "Aliases/(\
+                    erlang|\
                     ghc|\
-                    go\
+                    go|\
+                    openjdk\
                     )(@[0-9.]+)?$"
               missing_content: '\n  revision [0-9]+\n'
               keep_if_no_match: true
@@ -388,18 +399,6 @@ jobs:
                 qt@5|\
                 qtwebengine|\
                 texlive\
-                ).rb"
-              keep_if_no_match: true
-              allow_any_match: true
-
-            - label: CI-no-fail-fast-deps
-              path: "Formula/.+/(\
-                glib|\
-                libxml2|\
-                mesa|\
-                openssl@3|\
-                python@3.14|\
-                zlib-ng-compat\
                 ).rb"
               keep_if_no_match: true
               allow_any_match: true
