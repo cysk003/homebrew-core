@@ -147,6 +147,18 @@ class Qtwebengine < Formula
     sha256 "565f9ad031c702dae404e27a099e3e09186a3ab1b9520f06d215502b651fd910"
   end
 
+  # Fix build with the macOS 27 SDK until Qt updates its bundled Chromium.
+  # https://qt-project.atlassian.net/browse/QTBUG-150276
+  patch do
+    on_macos do
+      url "https://github.com/chromium/chromium/commit/6c0a651f9cf91d07c87be8feba854a38a311aba6.patch?full_index=1"
+      sha256 "5ed76e8bf00380d5baac097391f43c5c6f6fe438ab04efc647a8aa5511a19ce7"
+      directory "src/3rdparty/chromium"
+      type :backport
+      resolves "https://qt-project.atlassian.net/browse/QTBUG-150276"
+    end
+  end
+
   def install
     venv = virtualenv_create(buildpath/"venv", python3)
     venv.pip_install resources
@@ -252,7 +264,7 @@ class Qtwebengine < Formula
     CPP
 
     ENV["LC_ALL"] = "en_US.UTF-8"
-    ENV["QT_QPA_PLATFORM"] = "minimal" if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
+    ENV["QT_QPA_PLATFORM"] = "minimal"
     ENV.delete "CPATH" if OS.mac?
 
     system "cmake", "-S", ".", "-B", "cmake"
