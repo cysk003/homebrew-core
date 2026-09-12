@@ -19,6 +19,14 @@ class Socktainer < Formula
 
   uses_from_macos "swift" => :build
 
+  # Support apple container >1.2
+  patch do
+    url "https://github.com/socktainer/socktainer/commit/f0bb750256fa23648f2f240625f6ef179e80e660.patch?full_index=1"
+    sha256 "395a690867b55e5f8bb262c3444076d67bb836b6303470327040d56c79396c07"
+    type :backport
+    resolves "https://github.com/socktainer/socktainer/issues/181"
+  end
+
   def install
     with_env(BUILD_VERSION: version.to_s) do
       system "swift", "build", *std_swift_args
