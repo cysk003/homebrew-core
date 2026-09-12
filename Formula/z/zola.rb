@@ -6,11 +6,11 @@ class Zola < Formula
   license "EUPL-1.2"
 
   bottle do
-    sha256 cellar: :any, arm64_golden_gate: "fa457c238ace132b50add8088f4cb278490302ba0c38a1e144192f4275b55e0d"
-    sha256 cellar: :any, arm64_tahoe:       "257b14d4d337b9af0eeb85ed97f81cdcdec89487b6122b3974431b08d1dfee35"
-    sha256 cellar: :any, arm64_sequoia:     "465f79555760b5147d3b699eb40c7b5f25120c8786cb0adc81b4ab56b7ad0571"
-    sha256 cellar: :any, arm64_linux:       "84c835fd6969cf6bf0df82f96c4e87f3bc4665ec81280de27ea78c10c109feec"
-    sha256 cellar: :any, x86_64_linux:      "72df4ba5ec27aa96723a8462c4b817702dd91d9482a1d510dee8403fb7c1cc52"
+    sha256 cellar: :any, arm64_golden_gate: "92e4acf1fa8fc374c2f11ab5a520109caf8c3b10ea2b77a13b4506e71001ba31"
+    sha256 cellar: :any, arm64_tahoe:       "3fa67cf51efc3cf051c748996fd0150b77236bd2894dbf23431e4da21d340667"
+    sha256 cellar: :any, arm64_sequoia:     "f47d002fe11ff674a3f2ec84c01525ee253a567acd7c2e6b6ef2749c7418f455"
+    sha256 cellar: :any, arm64_linux:       "981765219eae043318ba70cd7ec7ecbbd9ff57e648a9c29f7000218a7918d69a"
+    sha256 cellar: :any, x86_64_linux:      "2ed0144800d0c72f51a74c456d8e30e5e5fbc3a7837d932a764e466f9a3f51b2"
   end
 
   depends_on "pkgconf" => :build
