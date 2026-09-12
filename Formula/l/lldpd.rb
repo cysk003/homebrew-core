@@ -11,12 +11,11 @@ class Lldpd < Formula
   end
 
   bottle do
-    sha256 arm64_tahoe:   "32667ecb07946f013f028a50c58fb79c5fa3d50064cf855b06413049c6b4b5cc"
-    sha256 arm64_sequoia: "45e89fcdccc4da7922243c2d8720f7ed9f814bc675e2b1ec06176a1c987e15a7"
-    sha256 arm64_sonoma:  "dd1fb5f76d760abd34f15922a5f248401f2ecbd536cae651e1cae14b84a8d457"
-    sha256 sonoma:        "68d8cf0453620eb9f8822c44e326a5ddfa2e96656e0208271a3b1d86cc6ffe50"
-    sha256 arm64_linux:   "cb61c0fe87c9adb22e961d4c70bdfa102733b7752cc0fcb924a41fd62280528f"
-    sha256 x86_64_linux:  "286581069fe7b41e790c6a3f79b732fd388a91e2d93d381ad5ade7b6d53fc43b"
+    sha256 arm64_golden_gate: "885a3c65f7399c4826ec8645e279e8ff09451f6388ccbd2a4f0a196b7c2e7c4e"
+    sha256 arm64_tahoe:       "d2be2c7719ff6b3746957f399214e34eb2866617e8bdfd78e032a49e8ffe835a"
+    sha256 arm64_sequoia:     "46fa0dbea6c352bf58b1eb1c0d154ea8af222a37b64e483d0e80e0378e4a38bc"
+    sha256 arm64_linux:       "e2ae49271b7bbd2fc2f21d867fe23e44efae7210e95f69641005b2526fe8edbe"
+    sha256 x86_64_linux:      "6271b6f460a4a3079278be3222722b7c20758e03330800c44ff6025815813622"
   end
 
   depends_on "pkgconf" => :build
