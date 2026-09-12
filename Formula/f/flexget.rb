@@ -3,8 +3,8 @@ class Flexget < Formula
 
   desc "Multipurpose automation tool for content"
   homepage "https://www.flexget.com"
-  url "https://files.pythonhosted.org/packages/98/1f/8e7717149bad916721725aec9b0a5105baeffb34eede4cd9dc2c65179dac/flexget-3.20.11.tar.gz"
-  sha256 "49df7b009e50644320f8b93057217f2e1a3e16ff29b96ce248b0d7d9bfe727d6"
+  url "https://files.pythonhosted.org/packages/28/4c/263e357998b7a962a484c8f623bd0a6e9bd78453c70371ece3203baefeef/flexget-3.20.13.tar.gz"
+  sha256 "577fa15cd583e2fa9a84e6fddfa8f88f1969389ebf2d05b99d8ceea8459dfe87"
   license "MIT"
 
   bottle do
@@ -276,11 +276,6 @@ class Flexget < Formula
   resource "pyrss2gen" do
     url "https://files.pythonhosted.org/packages/6d/01/fd610d5fc86f7dbdbefc4baa8f7fe15a2e5484244c41dcf363ca7e89f60c/PyRSS2Gen-1.1.tar.gz"
     sha256 "7960aed7e998d2482bf58716c316509786f596426f879b05f8d84e98b82c6ee7"
-  end
-
-  resource "pyscrypt" do
-    url "https://files.pythonhosted.org/packages/c6/56/51603b5714d221b784e4cbc2790b1215b3fb108e4d308a0bd52e4c3ce532/pyscrypt-1.6.2.tar.gz"
-    sha256 "bafdd195f10f7c7395f0133bad09746a68e0e6b66da202c9bdb6b1eb4abba5e9"
   end
 
   resource "python-dateutil" do
