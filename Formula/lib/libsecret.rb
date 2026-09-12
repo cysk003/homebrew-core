@@ -1,8 +1,8 @@
 class Libsecret < Formula
   desc "Library for storing/retrieving passwords and other secrets"
   homepage "https://wiki.gnome.org/Projects/Libsecret"
-  url "https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.7.tar.xz"
-  sha256 "6b452e4750590a2b5617adc40026f28d2f4903de15f1250e1d1c40bfd68ed55e"
+  url "https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.8.tar.xz"
+  sha256 "70e7279ccc7e8cce1bb0e1c57a3785e2c79aea6d1dd9a538abda3886f11cdf72"
   # Excluding GPL-2.0-or-later and Apache-2.0 which are for tests
   license "LGPL-2.1-or-later"
   compatibility_version 1
@@ -16,15 +16,11 @@ class Libsecret < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_golden_gate: "21ed81e0ed458113fd9708b33eba8adc1818eee93649e72b6ecde25ebbdab13b"
-    sha256 cellar: :any, arm64_tahoe:       "ee55da32af1c04e94e871fc0bc012524bf46c64adf3012991a6c0e2fae089135"
-    sha256 cellar: :any, arm64_sequoia:     "79874cb427ebe11a1e139f777e566d34c8be68ca97a25020f128c8052d7b2f7b"
-    sha256 cellar: :any, arm64_sonoma:      "cc698c5f2d961f9f09a8ba413bd5dc05f138714f2eabf2317f508cc5672ac0c1"
-    sha256 cellar: :any, arm64_ventura:     "27509297a2f39d82ec33dbd654c24927bcbcf05e117cc1f3fcd32b31038188a8"
-    sha256 cellar: :any, sonoma:            "dde2b7e3ab77bca9a397532ff32e89a715ae2fca9121c76296fdd6d88310b5f0"
-    sha256 cellar: :any, ventura:           "bad849e6cac866d1140597af61bbd3770fca70af8900b4fb86ad82d1ac9725bd"
-    sha256               arm64_linux:       "d7a6d2ab018cc1b477f6b188069ee30fff3a18611f8135888b01e8654dad7f91"
-    sha256               x86_64_linux:      "223ea87975e39fd3bb9ef2d04ea31c1c13b7f797199db96d2d2796b7e7856bf5"
+    sha256 cellar: :any, arm64_golden_gate: "a67ff23af00e9c9ce28b1823474aebc5fa7de1972b95020152c9122f19e754f9"
+    sha256 cellar: :any, arm64_tahoe:       "00aa4dd2965d4bc40947e8dae652fe5d2955064d541f6988d2ea05ccee1496b4"
+    sha256 cellar: :any, arm64_sequoia:     "9425d321a7cc20145392ab8cb83196af2036ba04065134b1dc1108cf9a27c4ba"
+    sha256 cellar: :any, arm64_linux:       "8d8e7716dcab2e2c1cc3070a576d88aae039f663dfb10b53e6461a0c6fa54823"
+    sha256 cellar: :any, x86_64_linux:      "7ce94281255c9e9c139bf38cff86bf9940d0300347a8bde39aae9f9d76c4189a"
   end
 
   depends_on "docbook-xsl" => :build
