@@ -17,6 +17,13 @@ class Crane < Formula
 
   depends_on "go" => :build
 
+  # `test do` block fetches a manifest from gcr.io
+  deny_network_access! [:build, :postinstall]
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
   def install
     ldflags = %W[-X github.com/google/go-containerregistry/cmd/crane/cmd.Version=#{version}]
 
