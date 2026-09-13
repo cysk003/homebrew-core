@@ -16,11 +16,11 @@ class Libsecret < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_golden_gate: "a67ff23af00e9c9ce28b1823474aebc5fa7de1972b95020152c9122f19e754f9"
-    sha256 cellar: :any, arm64_tahoe:       "00aa4dd2965d4bc40947e8dae652fe5d2955064d541f6988d2ea05ccee1496b4"
-    sha256 cellar: :any, arm64_sequoia:     "9425d321a7cc20145392ab8cb83196af2036ba04065134b1dc1108cf9a27c4ba"
-    sha256 cellar: :any, arm64_linux:       "8d8e7716dcab2e2c1cc3070a576d88aae039f663dfb10b53e6461a0c6fa54823"
-    sha256 cellar: :any, x86_64_linux:      "7ce94281255c9e9c139bf38cff86bf9940d0300347a8bde39aae9f9d76c4189a"
+    sha256 cellar: :any, arm64_golden_gate: "41f3810a797fd4fcf98d87551060a39367d9c3c74eb0496ca5bd01161bf4fe44"
+    sha256 cellar: :any, arm64_tahoe:       "96a2a8ba0615e96d9edf6f1bc076aa351e24d68c44cc3473ef72851902203489"
+    sha256 cellar: :any, arm64_sequoia:     "14b138d76afd6d6974fdd8346c0fa466b84d57a95171f44e0a6b9899cfd64718"
+    sha256 cellar: :any, arm64_linux:       "9f1c5f67559393f1a707e7cc5dd07c33f91f6186b0bf447aa3ac5e4c18bae032"
+    sha256 cellar: :any, x86_64_linux:      "c75303f08d3e9426547700ce8d49594f1955fa487786b855fa8ba9cc270fbffe"
   end
 
   depends_on "docbook-xsl" => :build
