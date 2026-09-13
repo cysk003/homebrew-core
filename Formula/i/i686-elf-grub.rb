@@ -1,7 +1,7 @@
 class I686ElfGrub < Formula
   desc "GNU GRUB bootloader for i686-elf"
   homepage "https://savannah.gnu.org/projects/grub"
-  url "https://ftpmirror.gnu.org/gnu/grub/grub-2.12.tar.xz"
+  url "https://ftpmirror.gnu.org/grub/grub-2.12.tar.xz"
   mirror "https://mirrors.ocf.berkeley.edu/gnu/grub/grub-2.12.tar.xz"
   sha256 "f3c97391f7c4eaa677a78e090c7e97e6dc47b16f655f04683ebd37bef7fe0faa"
   license "GPL-3.0-or-later"
@@ -65,7 +65,7 @@ class I686ElfGrub < Formula
         ".long -(0x1BADB002 + 0x0)\\n"
       );
     C
-    system Formula["#{target}-gcc"].bin/"#{target}-gcc", "-c", "-o", "boot", "boot.c"
+    system formula_opt_bin("#{target}-gcc")/"#{target}-gcc", "-c", "-o", "boot", "boot.c"
     system bin/"#{target}-grub-file", "--is-x86-multiboot", "boot"
   end
 end

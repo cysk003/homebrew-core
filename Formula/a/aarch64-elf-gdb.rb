@@ -1,7 +1,7 @@
 class Aarch64ElfGdb < Formula
   desc "GNU debugger for aarch64-elf cross development"
   homepage "https://www.gnu.org/software/gdb/"
-  url "https://ftpmirror.gnu.org/gnu/gdb/gdb-17.2.tar.xz"
+  url "https://ftpmirror.gnu.org/gdb/gdb-17.2.tar.xz"
   mirror "https://ftp.gnu.org/gnu/gdb/gdb-17.2.tar.xz"
   sha256 "1c036c0d72e4b3d1fb5c94c88632add6f9d76f4d7c4d2ea793c12a9f19a3228c"
   license "GPL-3.0-or-later"
@@ -82,7 +82,7 @@ class Aarch64ElfGdb < Formula
 
   test do
     (testpath/"test.c").write "void _start(void) {}"
-    system "#{Formula["aarch64-elf-gcc"].bin}/aarch64-elf-gcc", "-g", "-nostdlib", "test.c"
+    system "#{formula_opt_bin("aarch64-elf-gcc")}/aarch64-elf-gcc", "-g", "-nostdlib", "test.c"
     assert_match "Symbol \"_start\" is a function at address 0x",
           shell_output("#{bin}/aarch64-elf-gdb -batch -ex 'info address _start' a.out")
   end
