@@ -20,7 +20,6 @@ class Glfw < Formula
   depends_on "pkgconf" => :build
 
   on_linux do
-    depends_on "xorg-server" => :test
     depends_on "freeglut"
     depends_on "libxcursor"
     depends_on "libxext"
@@ -44,21 +43,29 @@ class Glfw < Formula
     (testpath/"test.c").write <<~C
       #define GLFW_INCLUDE_GLU
       #include <GLFW/glfw3.h>
+      #include <assert.h>
       #include <stdlib.h>
       int main()
       {
+        // Avoid requiring a window server in headless CI.
+        glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_NULL);
         if (!glfwInit())
           exit(EXIT_FAILURE);
+
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        GLFWwindow *window = glfwCreateWindow(640, 480, "Homebrew", NULL, NULL);
+        assert(window != NULL);
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        assert(width == 640 && height == 480);
+        glfwDestroyWindow(window);
+
         glfwTerminate();
         return 0;
       }
     C
 
     system ENV.cc, "test.c", "-o", "test", "-I#{include}", "-L#{lib}", "-lglfw"
-    if OS.linux? && ENV.exclude?("DISPLAY")
-      system Formula["xorg-server"].bin/"xvfb-run", "./test"
-    else
-      system "./test"
-    end
+    system "./test"
   end
 end
