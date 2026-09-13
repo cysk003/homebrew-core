@@ -25,6 +25,12 @@ class Colima < Formula
   depends_on "go" => :build
   depends_on "lima"
 
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
   def install
     project = "github.com/abiosoft/colima"
     ldflags = %W[

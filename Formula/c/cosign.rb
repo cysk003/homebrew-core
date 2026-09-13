@@ -19,6 +19,12 @@ class Cosign < Formula
 
   depends_on "go" => :build
 
+  deny_network_access!
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
   def install
     pkg = "sigs.k8s.io/release-utils/version"
     ldflags = %W[

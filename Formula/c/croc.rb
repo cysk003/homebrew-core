@@ -17,6 +17,13 @@ class Croc < Formula
 
   depends_on "go" => :build
 
+  # `test do` block runs a local relay
+  deny_network_access! [:build, :postinstall]
+
+  def fetch
+    system "go", "mod", "download"
+  end
+
   def install
     system "go", "build", *std_go_args
   end
