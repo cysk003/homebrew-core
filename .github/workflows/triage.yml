@@ -196,10 +196,6 @@ jobs:
                 - Formula/p/python-gdbm@3.14.rb
                 - Formula/p/python-tk@3.14.rb
 
-            - label: review no_autobump stanza
-              path: Formula/.+
-              content: 'no_autobump! because: :requires_manual_review'
-
             - label: boost
               path: Formula/.+
               content: depends_on "boost(@[0-9.]+)?"
@@ -318,31 +314,12 @@ jobs:
                 pytorch|\
                 qtwebengine|\
                 root|\
-                rtabmap|\
                 rust|\
-                souffle|\
                 swift|\
                 texlive|\
                 v8|\
                 vtk\
                 )(@[0-9.]+)?.rb"
-              keep_if_no_match: true
-              allow_any_match: true
-
-            - label: long dependent tests
-              path: "Formula/.+/(\
-                boost|\
-                cmake|\
-                freetype|\
-                gtk\\+3|\
-                jpeg-turbo|\
-                libpng|\
-                node|\
-                pango|\
-                pcre2|\
-                readline|\
-                zstd\
-                ).rb"
               keep_if_no_match: true
               allow_any_match: true
 
@@ -392,6 +369,7 @@ jobs:
 
             - label: CI-linux-self-hosted
               path: "Formula/.+/(\
+                graph-tool|\
                 qt@5|\
                 qtwebengine|\
                 texlive\
@@ -417,7 +395,7 @@ jobs:
 
             - label: shell-completion
               path: Formula/.+
-              patch_content: (generate_completions_from_executable|bash_completion|zsh_completion|fish_completion|pwsh_completion)
+              patch_content: '\n[-+].*(generate_completions_from_executable|bash_completion|zsh_completion|fish_completion|pwsh_completion)'
 
   # Handle this separately since the `workflows` label affects bottle cache usage
   # and hardens us against cache poisoning attacks.
