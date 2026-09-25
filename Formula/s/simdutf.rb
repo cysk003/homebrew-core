@@ -1,10 +1,11 @@
 class Simdutf < Formula
   desc "Unicode conversion routines, fast"
   homepage "https://simdutf.github.io/simdutf/"
-  url "https://github.com/simdutf/simdutf/archive/refs/tags/v9.2.0.tar.gz"
-  sha256 "b4b4f397065bb8f2ba2386feb40e58e27654c71c6f7521d9cbd32a16142bd040"
+  url "https://github.com/simdutf/simdutf/archive/refs/tags/v9.2.1.tar.gz"
+  sha256 "582f9d0dcf578f6d4766fa29ea12a7f2f02bd3c6ad9e0cf35a8e0ec8478eba4b"
   license any_of: ["Apache-2.0", "MIT"]
-  compatibility_version 5
+  revision 1
+  compatibility_version 6
   head "https://github.com/simdutf/simdutf.git", branch: "master"
 
   livecheck do
@@ -13,11 +14,11 @@ class Simdutf < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_golden_gate: "6cea4a0e1a36a9cb2544c351faeead95e6d2dd8fd5ea6708395ecf6faa47d194"
-    sha256 cellar: :any, arm64_tahoe:       "3810122aee9ff7053e475c1f9d87798751fec068426abddc59b0f5f98f83cd5a"
-    sha256 cellar: :any, arm64_sequoia:     "0969ca3ea9bb8eefca86e143e56d848ec0bdbc1e0a752cd3f1734f3e13ba90ac"
-    sha256 cellar: :any, arm64_linux:       "edc9a5846a643b63d352f918cd684deee47f3b1f7bf699bf91b124bf02a69630"
-    sha256 cellar: :any, x86_64_linux:      "567605ef26e0b6e3e2dccb6ff3af810fcc1971a48225f0b042511566922f58b9"
+    sha256 cellar: :any, arm64_golden_gate: "b5990df2e687dbd5b2d3212adf7a5d60dc2ea7f20eb8245711f23b259f3b861a"
+    sha256 cellar: :any, arm64_tahoe:       "5621579c497fe7f5f6d0c4ccf0f61d9107f319231ade4922c5fc9578f2728cb1"
+    sha256 cellar: :any, arm64_sequoia:     "39b53197558ebd796c9bc4d8e9f7a0fe040cedceca9c6e448e16cebf27d98176"
+    sha256 cellar: :any, arm64_linux:       "73355ee95d638fb3a61f1abeef369bd9435a3f240f3aa3e2d427084f1730bb81"
+    sha256 cellar: :any, x86_64_linux:      "c326e7ae4d05162d4242b52eac9663311e5a2c5b702db58795bd4fb912b77cbb"
   end
 
   depends_on "aklomp-base64" => :build
@@ -29,6 +30,7 @@ class Simdutf < Formula
   deny_network_access!
 
   def install
+    # C++20 is needed by `node`
     args = %W[
       -DBUILD_SHARED_LIBS=ON
       -DCMAKE_INSTALL_RPATH=#{rpath}
@@ -36,6 +38,7 @@ class Simdutf < Formula
       -DCPM_LOCAL_PACKAGES_ONLY=ON
       -DPython3_EXECUTABLE=#{which("python3")}
       -DSIMDUTF_BENCHMARKS=ON
+      -DSIMDUTF_CXX_STANDARD=20
     ]
     system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
     system "cmake", "--build", "build"
